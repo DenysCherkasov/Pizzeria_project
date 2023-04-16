@@ -1,0 +1,66 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" rel="stylesheet">
+    <title>Pizzeria</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin">Admin panel</a></li>
+        <li class="breadcrumb-item"><a href="/admin/default-pizza">Default pizza panel</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Deletion or update pizza</li>
+    </ol>
+</nav>
+<h1>List of all pizzas</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Weight</th>
+        <th>Available</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pizza : ${pizzas}">
+        <td th:text="${pizza.name}"></td>
+        <td th:text="${pizza.description}"></td>
+        <td th:text="${pizza.image}"></td>
+        <td th:text="${pizza.size}"></td>
+        <td th:text="${pizza.price}"></td>
+        <td th:text="${pizza.weight}"></td>
+        <td th:text="${pizza.availableStatus}"></td>
+        <td>
+            <form th:action="@{'/admin/default-pizza/delete/' + ${pizza.id}}" th:method="delete">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{'/admin/default-pizza/update/' + ${pizza.id}}" th:method="get">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+
+</body>
+</html>

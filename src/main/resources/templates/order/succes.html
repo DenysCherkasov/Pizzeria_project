@@ -1,0 +1,36 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Menu</title>
+
+</head>
+<body>
+<div id="header" th:insert="header :: header"></div>
+<div style="width: 20px; height:20px;"></div>
+
+<div class="text-dark text-center">
+<div class="container mt-5">
+    <h1>Order successfully created!</h1>
+    <h2>Your order details:</h2>
+    <p th:text="'Total number of dishes: ' + ${#lists.size(order.dishes)}"></p>
+    <p  th:text="'Total price: ' + ${order.price} + ' uah'"></p>
+    <p  th:text="'Name of receiver: ' + ${order.delivery.receiverName}"></p>
+    <p  th:text="'Phone number of receiver: ' + ${order.delivery.receiverPhone}"></p>
+    <p  th:text="'Address of delivery: ' + ${order.delivery.deliveryAddress}"></p>
+    <p  th:text="'Time of delivery: ' + ${order.delivery.deliveryTime}"></p>
+</div>
+</div>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer>
+    <div id="" th:insert="footer :: footer"></div>
+    </a></footer>
+
+</div>
+</body>
+</html>

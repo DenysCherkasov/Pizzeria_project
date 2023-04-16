@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Thymeleaf demo</title>
+</head>
+
+<body>
+
+<div id="header" th:insert="header :: header"></div>
+
+<div class="container">
+    <div class="row" style="margin-top:20px">
+        <div class="row justify-content-center col-xs-12 col-sm-8 col-md-5 col-sm-offset-2 col-md-offset-3">
+            <form class="form-signin" th:object="${user}" autocomplete="on" th:action="@{/registration}" method="POST">
+                <fieldset>
+                    <h1>REGISTRATION FORM </h1>
+                    <div class="form-group">
+                        <label th:text="Name + '*'"></label>
+                        <input type="text" th:field="*{name}" class="form-control input-lg" title="name" required/>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="Email + '*'"></label>
+                        <input type="text" th:field="*{email}"  class="form-control input-lg" title="email"
+                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" autofocus="true" required
+                               placeholder="name@site.com"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="control-label">Telephone number:</label>
+                        <input type="text" id="phoneNumber" name="phoneNumber" class="form-control input-lg" title="phoneNumber"
+                               pattern="^(\+38)?0\d{9}$" required
+                               placeholder="+380501234567"/>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="Age + '*'"></label>
+                        <input type="number" th:field="*{age}" class="form-control input-lg" title="age"
+                               min="1" required/>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="Password + '*'"></label>
+                        <input type="text" th:field="*{password}" class="form-control input-lg" title="password"
+                               pattern=".{5,}" required placeholder="Minimum 5 symbols"/>
+                    </div>
+                    <br>
+                    <input class="btn btn-outline-dark" type="submit" th:value="Registration"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+<footer><div id="footer" th:insert="footer :: footer"></div></a></footer>
+
+</body>
+</html>

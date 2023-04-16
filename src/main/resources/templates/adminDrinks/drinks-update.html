@@ -1,0 +1,59 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <title>Pizzeria</title>
+</head>
+
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin">Admin panel</a></li>
+        <li class="breadcrumb-item"><a href="/admin/drinks">Drinks panel</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Update drinks</li>
+    </ol>
+</nav>
+
+<h1 style="text-align:center;">Edit drinks</h1>
+<form th:object="${drinks}" th:action="@{'/admin/drinks/update'}" th:method="put" style="max-width:500px; margin:auto;">
+    <input type="hidden" id="id" name="id" th:field="${drinks.id}" th:value="${drinks.id}"><br>
+    <br>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="${drinks.name}" th:value="${drinks.name}" required><br>
+    <br>
+    <label for="image">Image:</label>
+    <input type="text" id="image" name="image" th:field="${drinks.image}" th:value="${drinks.image}" required><br>
+    <br>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" th:field="${drinks.price}" th:value="${drinks.price}" min="1" required><br>
+    <br>
+    <label for="volume">Volume:</label>
+    <input type="number" id="volume" name="volume" th:field="${drinks.volume}" th:value="${drinks.volume}" min="1" required><br>
+    <br>
+    <label for="availableStatus" style="margin-right:10px; margin-bottom: 10px;">Available status:</label>
+    <select id="availableStatus" name="availableStatus" required style="flex:1; margin-bottom: 10px;">
+        <option value="true" th:selected="${drinks.availableStatus} == true">True</option>
+        <option value="false" th:selected="${drinks.availableStatus} == false">False</option>
+    </select><br>
+    <br>
+    <label for="drinksType" style="margin-right:10px; margin-bottom: 10px;">ALCOHOL/NON_ALCOHOL:</label>
+    <select id="drinksType" name="drinksType" required style="flex:1; margin-bottom: 10px;">
+        <option value="ALCOHOL" th:selected="${drinks.drinksType} == ALCOHOL">ALCOHOL</option>
+        <option value="NON_ALCOHOL" th:selected="${drinks.drinksType} == NON_ALCOHOL">NON_ALCOHOL</option>
+    </select><br>
+    <br>
+    <input type="submit" value="Update drinks" style="background-color:#444444; color:#f2f2f2; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">
+</form>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+
+</body>
+</html>

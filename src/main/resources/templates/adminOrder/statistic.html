@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" rel="stylesheet">
+    <title>Pizzeria</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin">Admin panel</a></li>
+        <li class="breadcrumb-item"><a href="/admin/order">Order panel</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Orders statistic</li>
+    </ol>
+</nav>
+
+<div class="d-flex align-items-center justify-content-center">
+    <form action="/admin/order/statistic/get-statistic" method="get">
+        <label for="days">How many days do you want to get statistics?</label>
+        <input type="number" id="days" name="days" min="1" required/>
+        <input type="submit" class="btn btn-secondary" value="GET STATISTIC">
+    </form>
+</div>
+
+<div class="d-flex align-items-center justify-content-center">
+    <div class="text-center">
+        <h1 th:if="${statistics != null}" class="mx-auto">Statistic</h1>
+        <table th:if="${statistics != null}" class="table table-bordered mx-auto" style="width: 50%;">
+            <thead>
+            <tr>
+                <th>Count orders</th>
+                <th>Total income</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="statistic : ${statistics}">
+                <td th:text="${statistic.countOrders}"></td>
+                <td th:text="${statistic.totalIncome}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+
+</body>
+</html>

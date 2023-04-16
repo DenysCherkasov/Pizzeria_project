@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <title>Menu</title>
+</head>
+<body>
+<div id="header" th:insert="header :: header"></div>
+<div style="width: 20px; height:20px;"></div>
+<div class="text-center">
+  <a href="/menu/pizza" class="btn btn-secondary">Pizza</a>
+  <a href="/menu/drinks/non-alcohol" class="btn btn-secondary">Drinks</a>
+  <a href="/menu/construction" class="btn btn-secondary">Construct your own pizza</a>
+</div>
+<div style="width: 20px; height: 20px;"></div>
+
+<div class="container">
+  <h1 class="text-center mb-4">Create Your Own Pizza</h1>
+  <form th:action="@{/menu/construction/created}" method="post">
+    <div class="form-group text-center">
+      <label for="size">Pizza Size:</label>
+      <select id="size" name="size" class="form-control" style="max-width: 200px; display: inline-block;">
+        <option value="30">30 cm</option>
+        <option value="45">45 cm</option>
+      </select>
+    </div>
+    <div style="width: 10px; height: 10px;"></div>
+    <div class="form-group text-center">
+      <label for="souse">Sauce:</label>
+      <select id="souse" name="souse" class="form-control" style="max-width: 200px; display: inline-block;">
+        <option th:each="souse : ${souses}" th:value="${souse.id}" th:text="${souse.name + ' (UAH ' + souse.price + ') ' + (souse.spice ? 'Spicy' : 'Not Spicy')}"></option>
+      </select>
+    </div>
+    <div class="form-group ">
+      <label for="ingredients"></label>
+      <div class="form-group text-center">
+        <p>INGREDIENTS:</p>
+      </div>
+      <div id="ingredients" class="row">
+        <div class="col-md-4" th:each="ingredient : ${ingredients}">
+          <div class="form-check">
+            <input type="checkbox" th:id="${'ingredient_' + ingredient.id}" th:name="'ingredients'" th:value="${ingredient.id}" class="form-check-input">
+            <label class="form-check-label" th:for="${'ingredient_' + ingredient.id}" th:text="${ingredient.name + ' (UAH ' + ingredient.price + ') ' + (ingredient.vegetarian ? 'Vegetarian' : 'Non-vegetarian')}"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 10px; height: 10px;"></div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">CREATE PIZZA</button>
+    </div>
+  </form>
+</div>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+</body>
+</html>
