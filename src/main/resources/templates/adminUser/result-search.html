@@ -1,0 +1,60 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <title>Pizzeria</title>
+</head>
+
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/admin">Admin panel</a></li>
+    <li class="breadcrumb-item active" aria-current="page">User panel</li>
+  </ol>
+</nav>
+
+<h1 align="center" >User info</h1>
+<form align="center">
+  <label>ID:</label>
+  <span th:text="${user.id}"></span><br>
+
+  <label>Name:</label>
+  <span th:text="${user.name}"></span><br>
+
+  <label>Number of telephone:</label>
+  <span th:text="${user.phoneNumber}"></span><br>
+
+  <label>Email:</label>
+  <span th:text="${user.email}"></span><br>
+
+  <label>Role:</label>
+  <span th:text="${user.role}"></span><br>
+</form>
+<td>
+<form th:action="@{'/admin/user/users'}" th:method="put" align="center">
+  <button type="submit">Set Role "CLIENT" </button>
+  <input type="hidden" name="role" th:value="CLIENT">
+  <input type="hidden" name="id"  th:value="${user.id}">
+</form>
+</td>
+<td>
+  <form th:action="@{'/admin/user/users'}" th:method="put" align="center">
+    <button type="submit">Set Role "MANAGER" </button>
+    <input type="hidden" name="role"  th:value="MANAGER">
+    <input type="hidden" name="id" th:value="${user.id}">
+  </form>
+</td>
+
+
+  <div style="width: 200px; height: 200px;"></div>
+  <footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+
+</body>
+</html>

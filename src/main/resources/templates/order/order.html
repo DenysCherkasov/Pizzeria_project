@@ -1,0 +1,156 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Menu</title>
+
+</head>
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<div style="width: 20px; height:20px;"></div>
+
+<div class="bg-light">
+    <div class="container mt-5 col-md-6 offset-md-3 text-center ">
+        <form th:action="@{/order/create}" th:object="${order}" method="post">
+            <h1 th:if="${dishes.defaultPizzas != null and not #lists.isEmpty(dishes.defaultPizzas)}" class="text-dark">Pizzas from
+                menu</h1>
+            <table th:if="${dishes.defaultPizzas != null and not #lists.isEmpty(dishes.defaultPizzas)}"
+                   class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Weight</th>
+                    <th></th>
+                </tr>
+                <tr th:each="defaultPizza : ${dishes.defaultPizzas}">
+                    <td th:text="${defaultPizza.name}"></td>
+                    <td th:text="${defaultPizza.price}"></td>
+                    <td th:text="${defaultPizza.size}"></td>
+                    <td th:text="${defaultPizza.weight}"></td>
+                    <td><a th:href="@{/order/delete?id=__${defaultPizza.id}__}" class="btn btn-secondary">DELETE</a>
+                    </td>
+                </tr>
+            </table>
+
+            <h1 th:if="${dishes.ownPizzas != null and not #lists.isEmpty(dishes.ownPizzas)}" class="text-dark">Own Pizzas</h1>
+            <table th:if="${dishes.ownPizzas != null and not #lists.isEmpty(dishes.ownPizzas)}"
+                   class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Weight</th>
+                    <th>Ingredients</th>
+                    <th></th>
+                </tr>
+                <tr th:each="ownPizza : ${dishes.ownPizzas}">
+                    <td>Own pizza</td>
+                    <td th:text="${ownPizza.price}"></td>
+                    <td th:text="${ownPizza.size}"></td>
+                    <td th:text="${ownPizza.weight}"></td>
+                    <td>
+            <span th:each="ingredient, iterStat : ${ownPizza.ingredients}">
+                <span th:text="${ingredient.name}"></span>
+                <span th:unless="${iterStat.last}">, </span>
+            </span>
+                    </td>
+                    <td><a th:href="@{/order/delete?id=__${ownPizza.id}__}" class="btn btn-secondary">DELETE</a></td>
+                </tr>
+            </table>
+
+            <h1 th:if="${dishes.drinks != null and not #lists.isEmpty(dishes.drinks)}" class="text-dark">Drinks</h1>
+            <table th:if="${dishes.drinks != null and not #lists.isEmpty(dishes.drinks)}"
+                   class="table table-hover table-striped table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Volume</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+                <tr th:each="drink : ${dishes.drinks}">
+                    <td th:text="${drink.name}"></td>
+                    <td th:text="${drink.price}"></td>
+                    <td th:text="${drink.volume}"></td>
+                    <td th:text="${drink.drinksType}"></td>
+                    <td><a th:href="@{/order/delete?id=__${drink.id}__}" class="btn btn-secondary">DELETE</a></td>
+                </tr>
+            </table>
+            <h3 th:if="${not #lists.isEmpty(dishes.ownPizzas) or not #lists.isEmpty(dishes.drinks) or not #lists.isEmpty(dishes.defaultPizzas)}"
+                class="text-dark">Total price: <span th:text="${price}"></span></h3>
+
+            <h1 th:if="${#lists.isEmpty(dishes.ownPizzas) and #lists.isEmpty(dishes.drinks) and #lists.isEmpty(dishes.defaultPizzas)}"
+                class="text-center">No dishes in order yet</h1>
+
+
+            <button th:if="${not #lists.isEmpty(dishes.ownPizzas) or not #lists.isEmpty(dishes.drinks) or not #lists.isEmpty(dishes.defaultPizzas)}"
+                    type="button" class="btn btn-secondary" onclick="showOrderDetails()">Confirm Order</button>
+
+            <div class="row justify-content-center align-items-center">
+                <div class="form-group col-md-6 offset-md-3 text-center">
+                    <label for="receiverName" id="receiverNameLabel" style="display:none;"></label>
+                    <input type="text" id="receiverName" name="receiverName" placeholder="Enter receiver's name" required
+                           style="display:none;">
+                </div>
+                <div class="form-group col-md-6 offset-md-3 text-center">
+                    <label for="receiverPhone" id="receiverPhoneLabel" style="display:none;"></label>
+                    <input type="tel" id="receiverPhone" name="receiverPhone" placeholder="Enter receiver's phone number" required
+                           style=" display:none;">
+                </div>
+
+                <div class="form-group col-md-6 offset-md-3 text-center">
+                    <label for="deliveryAddress" id="deliveryAddressLabel" style="display:none;"></label>
+                    <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter the delivery address" required style=" display:none;">
+                </div>
+
+                <div class="form-group col-md-6 offset-md-3 text-center">
+                    <label for="deliveryTime" id="deliveryTimeLabel" style="display:none;"></label>
+                    <input type="datetime-local" id="deliveryTime" name="deliveryTime" required
+                           style=" display:none;">
+                </div>
+                <input type="hidden" id="defaultPizzas" name="defaultPizzas" th:field="${dishes.defaultPizzas}" th:value="${dishes.defaultPizzas}" />
+                <input type="hidden" id="ownPizzas" name="ownPizzas" th:field="${dishes.ownPizzas}" th:value="${dishes.ownPizzas}" />
+                <input type="hidden" id="drinks" name="drinks"  th:field="${dishes.drinks}" th:value="${dishes.drinks}" />
+                <input type="hidden" id="price" name="price" th:field="${dishes.price}" th:value="${dishes.price}" /><br>
+
+                <div class="form-group col-md-6 offset-md-3 text-center">
+                    <button type="submit" class="btn btn-secondary" id="submitBtn" style="display:none;">Place Order
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+function showOrderDetails() {
+    document.getElementById("receiverNameLabel").style.display = "block";
+    document.getElementById("receiverName").style.display = "block";
+    document.getElementById("receiverPhoneLabel").style.display = "block";
+    document.getElementById("receiverPhone").style.display = "block";
+    document.getElementById("deliveryAddressLabel").style.display = "block";
+    document.getElementById("deliveryAddress").style.display = "block";
+    document.getElementById("deliveryTimeLabel").style.display = "block";
+    document.getElementById("deliveryTime").style.display = "block";
+    document.getElementById("submitBtn").style.display = "block";
+}
+</script>
+
+
+<div style="width: 200px; height: 200px;"></div>
+<footer>
+    <div id="" th:insert="footer :: footer"></div>
+    </a></footer>
+
+</div>
+</body>
+</html>

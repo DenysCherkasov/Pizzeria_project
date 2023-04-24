@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <title>Menu</title>
+
+</head>
+<body>
+<div id="header" th:insert="header :: header"></div>
+
+<div style="width: 20px; height:20px;"></div>
+
+<div class="text-center">
+  <a href="/menu/pizza" class="btn btn-secondary">Pizza</a>
+  <a href="/menu/drinks/non-alcohol" class="btn btn-secondary">Drinks</a>
+  <a href="/menu/construction" class="btn btn-secondary">Construct your own pizza</a>
+</div>
+
+<body>
+<div style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+  <div style="display: flex; align-items: center;">
+    <div style="flex: 0 0 200px; margin-right: 20px;">
+      <img th:src="@{/images/drinks/{image}(image=${drinks.image})}" width="500" height="500" alt="Drinks Image">
+    </div>
+    <div style="flex: 1;">
+      <h1 th:text="${drinks.name}"></h1>
+      <p>Price: <span th:text="${drinks.price}"></span> UAH</p>
+      <p>Volume: <span th:text="${drinks.volume}"></span> sm</p>
+      <form method="get" action="/menu/drinks/add-to-order">
+        <input type="hidden" name="id" th:value="${drinks.id}">
+        <input type="submit" value="ADD TO ORDER">
+      </form>
+    </div>
+  </div>
+</div>
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+</body>
+</html>

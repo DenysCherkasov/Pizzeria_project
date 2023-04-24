@@ -1,0 +1,114 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <title>Menu</title>
+</head>
+<body>
+<div id="header" th:insert="header :: header"></div>
+<div style="width: 20px; height:20px;"></div>
+<div class="text-center">
+  <a href="/menu/pizza" class="btn btn-secondary">Pizza</a>
+  <a href="/menu/drinks/non-alcohol" class="btn btn-secondary">Drinks</a>
+  <a href="/menu/construction" class="btn btn-secondary">Construct your own pizza</a>
+</div>
+
+<div style="width: 20px; height:20px;"></div>
+<div class="text-center">
+  <a href="/menu/drinks/check" class="btn btn-secondary">ALCOHOL DRINKS</a>
+  <a href="/menu/drinks/non-alcohol" class="btn btn-secondary">NON ALCOHOL DRINKS</a>
+</div>
+
+<div style="margin-right: 200px; text-align: right;">
+  <h3>Sort by:</h3>
+  <a href="/menu/drinks/non-alcohol?order=price&dir=asc">
+    <button class="btn btn-light">Price Ascending</button>
+  </a>
+  <a href="/menu/drinks/non-alcohol?order=price&dir=desc">
+    <button class="btn btn-light">Price Descending</button>
+  </a>
+  <a href="/menu/drinks/non-alcohol?order=volume&dir=asc">
+    <button class="btn btn-light">Volume Ascending</button>
+  </a>
+  <a href="/menu/drinks/non-alcohol?order=volume&dir=desc">
+    <button class="btn btn-light">Volume Descending</button>
+  </a>
+</div>
+
+<div style="width: 20px; height:20px;"></div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${currentPage > 1}">
+          <a class="page-link" th:href="@{/menu/drinks/non-alcohol(order=*{order}, dir=*{dir}, page=1)}" tabindex="-1" aria-disabled="true">&laquo;</a>
+        </li>
+        <li class="page-item" th:if="${currentPage > 1}">
+          <a class="page-link" th:href="@{/menu/drinks/non-alcohol(order=*{order}, dir=*{dir}, page=${currentPage - 1})}">&lt;</a>
+        </li>
+        <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+          <a class="page-link" th:href="@{/menu/drinks/non-alcohol(order=*{order}, dir=*{dir}, page=${pageNum})}" th:text="${pageNum}"></a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages}">
+          <a class="page-link" th:href="@{/menu/drinks/non-alcohol(order=*{order}, dir=*{dir}, page=${currentPage + 1})}">&gt;</a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages}">
+          <a class="page-link" th:href="@{/menu/drinks/non-alcohol(order=*{order}, dir=*{dir}, page=${totalPages})}" tabindex="-1" aria-disabled="true">&raquo;</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div style="width: 20px; height:20px;"></div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-3" th:each="drink, iter : ${drinks}">
+      <div class="card text-center" style="width: 18rem;">
+        <img class="card-img-top" th:src="@{/images/drinks/{image}(image=${drink.image})}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${drink.name}"></h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span>Price: </span>
+            <span th:text="${drink.price}"></span>
+            <span> UAH</span>
+          </li>
+          <li class="list-group-item">
+            <span>Volume: </span>
+            <span th:text="${drink.volume}"></span>
+            <span> ml</span>
+          </li>
+        </ul>
+        <div class="card-body">
+          <td>
+            <form th:action="@{'/menu/drinks/' + ${drink.id}}" th:method="get" >
+              <button type="submit">SHOW DETAILS</button>
+            </form>
+          </td>
+          <br>
+          <form method="get" action="/menu/drinks/add-to-order">
+            <input type="hidden" name="id" th:value="${drink.id}">
+            <input type="submit" value="ADD TO ORDER">
+          </form>
+        </div>
+      </div>
+      <div th:if="${iter.index % 4 == 3}"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div style="width: 200px; height: 200px;"></div>
+<footer><div id="" th:insert="footer :: footer"></div></a></footer>
+
+</body>
+</html>
